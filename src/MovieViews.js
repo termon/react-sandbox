@@ -39,9 +39,9 @@ export const Header = props => {
 export const MovieList = props => {
   return (
     <ul className="list-group-flush">
-      {props.movies.map(m => (
-        <li className="list-group-item" key={m.id}>
-          <DisplayMovie movie={m} />
+      {props.movies.map(movie => (
+        <li className="list-group-item" key={movie.id}>
+          <DisplayMovie movie={movie} deleteHandler={props.deleteHandler} />
         </li>
       ))}
     </ul>
@@ -51,7 +51,7 @@ export const MovieList = props => {
 // function component to display a movie (via props)
 // use destructuring to exract movie prop by name
 // avoids having to use props.movie
-export const DisplayMovie = ({ movie }) => {
+export const DisplayMovie = ({ movie, deleteHandler }) => {
   return (
     <div>
       <div className="card">
@@ -65,6 +65,12 @@ export const DisplayMovie = ({ movie }) => {
           <p className="card-text">{movie.description}</p>
         </div>
       </div>
+      <button
+        className="btn btn-danger mt-3"
+        onClick={deleteHandler.bind(this, movie.id)}
+      >
+        Delete
+      </button>
     </div>
   );
 };

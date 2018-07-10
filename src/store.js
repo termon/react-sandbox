@@ -1,5 +1,6 @@
 const FIREBASE_URL = "https://movies-a1.firebaseio.com/movies.json";
 const LOCAL_URL = "http://localhost:3000/movies";
+
 export function GetMovies() {
   return fetch(FIREBASE_URL).then(response => {
     return response.json();
@@ -19,6 +20,13 @@ export async function PostMovieAsync(movie) {
   })
     .then(response => response.json()) // parses response to JSON
     .catch(error => console.error(`Fetch Error =\n`, error));
+}
+
+export async function DeleteMovieAsync(id) {
+  return fetch(LOCAL_URL + "/" + id, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json; charset=utf-8" }
+  });
 }
 
 export function addMovie(payload) {

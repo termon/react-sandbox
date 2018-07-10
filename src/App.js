@@ -1,6 +1,11 @@
 import React from "react";
 import { Header, SearchField, MovieList, MovieForm } from "./MovieViews";
-import { GetMoviesAsync, addMovie, PostMovieAsync } from "./store";
+import {
+  GetMoviesAsync,
+  addMovie,
+  PostMovieAsync,
+  DeleteMovieAsync
+} from "./store";
 
 export class App extends React.Component {
   constructor(props) {
@@ -17,6 +22,7 @@ export class App extends React.Component {
     this.filterMovies = this.filterMovies.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this);
   }
 
   filterMovies() {
@@ -42,6 +48,14 @@ export class App extends React.Component {
     console.log(val);
     this.setState({
       search: val
+    });
+  }
+
+  deleteMovie(id) {
+    console.log("deleting", id);
+    DeleteMovieAsync(id);
+    GetMoviesAsync().then(json => {
+      this.setState({ movies: json });
     });
   }
 
@@ -94,7 +108,10 @@ export class App extends React.Component {
         ) : (
           <React.Fragment>
             <SearchField search={this.state.search} change={this.changeClick} />
-            <MovieList movies={this.filterMovies()} />
+            <MovieList
+              movies={this.filterMovies()}
+              deleteHandler={this.deleteMovie}
+            />
           </React.Fragment>
         )}
       </React.Fragment>
